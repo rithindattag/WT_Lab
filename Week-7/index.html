@@ -1,0 +1,38 @@
+<html>
+	<body>
+		<script>
+			function loadXML(){
+				var xml = new XMLHttpRequest()
+				xml.onreadystatechange = function(){
+        				studDetails(this)
+    					
+				};
+				xml.open("GET", "data.xml", true)
+				xml.send()
+			}
+
+			function studDetails(xml){
+				var xmlDoc = xml.responseXML
+				var data = ""
+				var x = xmlDoc.getElementsByTagName("student")
+				for(var i = 0; i < x.length; i++) {
+					var name = x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue
+					var rollno = x[i].getElementsByTagName("rollno")[0].childNodes[0].nodeValue
+					var percentage = x[i].getElementsByTagName("percentage")[0].childNodes[0].nodeValue
+					var gender = x[i].getElementsByTagName("gender")[0].childNodes[0].nodeValue
+					if(document.getElementById("rollno").value == rollno)
+						data += name + "<br/>" + rollno + "<br/>" + percentage + "<br/>" + gender + "<br/>"
+				}
+				if(data == "")
+					 data = "No person found"
+				document.getElementById("data").innerHTML = data
+			}
+
+		</script>
+		<center>
+			<input type = "text" id = "rollno" placeholder = "Enter your roll number"/><br/>
+			<button type="button" onclick = "loadXML()" > Submit </button>
+			<p id = "data">Hello</p>
+		</center>
+	</body>
+</html>
